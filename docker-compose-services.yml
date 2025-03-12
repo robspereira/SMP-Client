@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  localstack:
+    container_name: localstack
+    image: localstack/localstack:3.5.0
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=sqs
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+    network_mode: host
+
+  oracle:
+    image: gvenzl/oracle-free
+    environment:
+      ORACLE_PASSWORD: oracle123
+    ports:
+      - '1521:1521'
+    depends_on:
+      localstack:
+        condition: service_healthy
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "response=$$(echo 'SELECT 1 FROM dual;' | sqlplus -s SYSTEM/oracle123@localhost:1521/FREEPDB1);",
+        "if echo $$response | grep -qE '1'; then exit 0; else exit 1; fi"
+      ]
+      interval: 5s
+      timeout: 1s
+      retries: 50
+    network_mode: host
