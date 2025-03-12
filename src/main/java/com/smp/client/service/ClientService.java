@@ -34,4 +34,14 @@ public class ClientService {
         repository.delete(clientToDelete);
     }
 
+    public void updateClient(ClientDTO dto) {
+        Client update = findByCnpj(dto.getCnpj());
+
+        update.setName(dto.getName());
+        update.setContactEmail(dto.getEmail());
+        update.setAddress(update.getAddress());
+
+        repository.save(update);
+    }
+
 }

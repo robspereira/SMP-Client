@@ -29,4 +29,10 @@ public class ClientController {
         service.deleteClientByCnpj(cnpj);
         return ResponseEntity.accepted().build();
     }
+
+    @PutMapping(value = "/update")
+    public ResponseEntity<Void> updateClient(@RequestBody final ClientDTO client){
+        service.updateClient(client);
+        return ResponseEntity.accepted().build();
+    }
 }

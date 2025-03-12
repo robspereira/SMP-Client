@@ -24,8 +24,12 @@ repositories {
 }
 
 ext{
+	springCloudVersion = '2023.0.2'
 	lombokMapstructBindingVersion = '0.2.0'
 	mapStructVersion = '1.5.5.Final'
+	hibernateVersion = '6.4.10.Final'
+	flywayVersion = '10.11.1'
+	springCloudAWSVersion = '3.1.1'
 }
 
 dependencies {
@@ -35,12 +39,29 @@ dependencies {
 	implementation "org.mapstruct:mapstruct:${mapStructVersion}"
 	implementation "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
 
+	implementation 'io.awspring.cloud:spring-cloud-aws-starter-sqs'
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	implementation "org.hibernate.orm:hibernate-core:${hibernateVersion}"
+	implementation "org.hibernate.orm:hibernate-envers:${hibernateVersion}"
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+
+	implementation "org.flywaydb:flyway-core:${flywayVersion}"
+	implementation "org.flywaydb:flyway-database-oracle:${flywayVersion}"
+
+
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		mavenBom "io.awspring.cloud:spring-cloud-aws-dependencies:${springCloudAWSVersion}"
+	}
 }
 
 tasks.named('test') {
