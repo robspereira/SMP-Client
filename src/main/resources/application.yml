@@ -27,7 +27,7 @@ spring:
     url: ${spring.datasource.url}
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
-    locations: classpath:/db/migrations
+    locations: classpath:/migrations
     schemas: SMP_CLIENT
 
     create-schemas: true
