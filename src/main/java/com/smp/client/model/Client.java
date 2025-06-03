@@ -19,8 +19,8 @@ public class Client {
     @Column(name = "CLIENT_ID")
     private Long clientId;
 
-    @Column(nullable = false, unique = true, name = "CNPJ")
-    private String cnpj;
+    @Column(nullable = false, unique = true, name = "CLIENT_DOCUMENT")
+    private String documentNumber;
 
     @Column(nullable = false, name = "CLIENT_NAME")
     private String name;
@@ -28,8 +28,7 @@ public class Client {
     @Column(nullable = false, unique = true, name = "CONTACT_EMAIL")
     private String contactEmail;
 
-    @Column(nullable = false, unique = true)
-    private String address;
-
+    @Column(nullable = false, name = "COMPANY_ID")
+    private Long companyId;
 
 }

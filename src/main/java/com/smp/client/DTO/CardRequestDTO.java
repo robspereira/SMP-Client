@@ -2,7 +2,6 @@ package com.smp.client.DTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.smp.client.model.Client;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,21 +13,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ClientDTO {
+public class CardRequestDTO {
 
-    private String name;
+    private Long clientId;
 
-    private String documentNumber;
+    private String clientName;
 
-    private String email;
+    private Long companyId;
 
-
-    public Client toClient(ClientDTO dto) {
-        return Client.builder()
-                .name(dto.getName())
-                .documentNumber(dto.getDocumentNumber())
-                .contactEmail(getEmail())
-                .build();
-    }
-
+    private String companyName;
 }
