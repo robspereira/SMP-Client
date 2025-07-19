@@ -19,9 +19,9 @@ public class ClientController {
         return ResponseEntity.ok(service.saveClient(client));
     }
 
-    @GetMapping(value = "/cnpj/{cnpj}")
-    public ResponseEntity<Client> findClientByCnppj(@PathVariable("cnpj") final String cnpj){
-        return ResponseEntity.ok(service.findByCnpj(cnpj));
+    @GetMapping
+    public ResponseEntity<Client> findClientByDocumentNumber(@RequestParam("documentNumber") final String documentNumber){
+        return ResponseEntity.ok(service.findByDocumentNumber(documentNumber));
     }
 
     @DeleteMapping(value = "/delete/cnpj/{cnpj}")

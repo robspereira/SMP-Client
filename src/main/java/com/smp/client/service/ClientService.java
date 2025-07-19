@@ -13,35 +13,44 @@ import org.springframework.stereotype.Service;
 public class ClientService {
 
     private final ClientRepository repository;
+    private final QueueProcessService queueService;
 
 
     public Client saveClient(ClientDTO dto) {
-        repository.findByCnpj(dto.getCnpj()).ifPresent(client -> {
-            throw new ClientAlreadyExistsException("CNPJ já existe no banco de dados");
+        repository.findByDocumentNumber(dto.getDocumentNumber()).ifPresent(client -> {
+            throw new ClientAlreadyExistsException("Cliente já existe no banco de dados");
         });
 
-        return repository.save(dto.toClient(dto));
+        Client savedClient = repository.save(dto.toClient(dto));
+
+        requestCardCreationForClient(savedClient);
+
+        return savedClient;
     }
 
-    public Client findByCnpj(String cnpj) {
-        return repository.findByCnpj(cnpj)
-                .orElseThrow(() -> new ClientNotFoundException("Cliente não encontrado pelo CNPJ informado"));
+    public Client findByDocumentNumber(String cnpj) {
+        return repository.findByDocumentNumber(cnpj)
+                .orElseThrow(() -> new ClientNotFoundException("Cliente não encontrado pelo número de documento informado"));
     }
 
     public void deleteClientByCnpj(String cnpj) {
-        Client clientToDelete = findByCnpj(cnpj);
+        Client clientToDelete = findByDocumentNumber(cnpj);
 
         repository.delete(clientToDelete);
     }
 
     public void updateClient(ClientDTO dto) {
-        Client update = findByCnpj(dto.getCnpj());
+        Client update = findByDocumentNumber(dto.getDocumentNumber());
 
         update.setName(dto.getName());
         update.setContactEmail(dto.getEmail());
-        update.setAddress(update.getAddress());
 
         repository.save(update);
+    }
+
+    private void requestCardCreationForClient(Client client) {
+        queueService.sendCardCreationRequest(client);
+
     }
 
 }

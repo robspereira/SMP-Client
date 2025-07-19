@@ -28,7 +28,8 @@ public class Client {
     @Column(nullable = false, unique = true, name = "CONTACT_EMAIL")
     private String contactEmail;
 
-    @Column(nullable = false, name = "COMPANY_ID")
-    private Long companyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "COMPANY_ID", nullable = false)
+    private Company company;
 
 }
