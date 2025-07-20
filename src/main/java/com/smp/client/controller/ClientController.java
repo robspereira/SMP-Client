@@ -1,5 +1,6 @@
 package com.smp.client.controller;
 
+import com.smp.client.DTO.CardInformationDTO;
 import com.smp.client.DTO.ClientDTO;
 import com.smp.client.model.Client;
 import com.smp.client.service.ClientService;
@@ -34,5 +35,10 @@ public class ClientController {
     public ResponseEntity<Void> updateClient(@RequestBody final ClientDTO client){
         service.updateClient(client);
         return ResponseEntity.accepted().build();
+    }
+
+    @GetMapping(value = "/cardInfo")
+    public ResponseEntity<CardInformationDTO> getClientCardInfo(@RequestParam final Long clientId){
+        return ResponseEntity.ok(service.getClientCardInformation(clientId));
     }
 }

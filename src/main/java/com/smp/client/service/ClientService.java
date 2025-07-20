@@ -1,8 +1,10 @@
 package com.smp.client.service;
 
+import com.smp.client.DTO.CardInformationDTO;
 import com.smp.client.DTO.ClientDTO;
 import com.smp.client.exception.ClientAlreadyExistsException;
 import com.smp.client.exception.ClientNotFoundException;
+import com.smp.client.integration.CardClient;
 import com.smp.client.model.Client;
 import com.smp.client.repository.ClientRepository;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,7 @@ public class ClientService {
 
     private final ClientRepository repository;
     private final QueueProcessService queueService;
+    private final CardClient cardClient;
 
 
     public Client saveClient(ClientDTO dto) {
@@ -51,6 +54,10 @@ public class ClientService {
     private void requestCardCreationForClient(Client client) {
         queueService.sendCardCreationRequest(client);
 
+    }
+
+    public CardInformationDTO getClientCardInformation(Long clientId) {
+        return cardClient.getClientCardInformation(clientId);
     }
 
 }
